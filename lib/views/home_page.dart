@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:deferred_comps/views/product_details_page.dart'
+    deferred as product_details;
 import 'package:deferred_comps/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -126,6 +128,9 @@ class ProductPage extends StatelessWidget {
 
                   var product = productController.productList[index];
                   return ListTile(
+                    onTap: () async {
+                      loadProductDetailsPage(context, product);
+                    },
                     title: Text(product['title'],
                         style: TextStyle(
                             color: Theme.of(context)
@@ -187,5 +192,16 @@ class ProductPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  void loadProductDetailsPage(
+      BuildContext context, Map<String, dynamic> product) {
+    product_details.loadLibrary();
+    Get.to(() => product_details.ProductDetailsPage(
+          title: product['title'],
+          description: product['description'],
+          imageUrl: product['image'],
+          price: product['price'],
+        ));
   }
 }
