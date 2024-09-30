@@ -15,23 +15,52 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomText(text: 'Products', color: Colors.white, fontSize: 24),
-        backgroundColor: accentColor,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              color: Colors.white,
+              Icons.menu,
+              size: 30.0,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
+        title: const CustomText(
+            text: 'Products', color: Colors.white, fontSize: 24),
+        backgroundColor: primaryColor,
       ),
       drawer: Drawer(
         child: ListView(
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: primaryColor, // Use theme's primary color
-              ),
-              child: const Text(
-                'Settings',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+            Container(
+              color: primaryColor,
+              child: const DrawerHeader(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      child: Icon(
+                        Icons.person,
+                        size: 40,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    CustomText(
+                      text: 'John Doe',
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ],
+                ),
               ),
             ),
             ListTile(
               title: const Text('Dark Mode'),
+              leading: const Icon(Icons.dark_mode),
               trailing: Obx(() {
                 return Switch(
                   value: themeController.isDarkMode.value,
@@ -40,6 +69,27 @@ class ProductPage extends StatelessWidget {
                   },
                 );
               }),
+            ),
+            ListTile(
+              title: const Text('Home'),
+              leading: const Icon(Icons.home),
+              onTap: () {
+                Get.offAllNamed('/home'); // Navigate to login page
+              },
+            ),
+            ListTile(
+              title: const Text('Sign Up'),
+              leading: const Icon(Icons.app_registration),
+              onTap: () {
+                Get.offAllNamed('/signup'); // Navigate to login page
+              },
+            ),
+            ListTile(
+              title: const Text('Logout'),
+              leading: const Icon(Icons.logout),
+              onTap: () {
+                Get.offAllNamed('/login'); // Navigate to login page
+              },
             ),
           ],
         ),

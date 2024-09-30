@@ -10,9 +10,9 @@ class ThemeController extends GetxController {
 
   ThemeData get lightTheme => ThemeData(
         brightness: Brightness.light,
-        primaryColor: const Color(0xffabaad5),
+        primaryColor: const Color(0xff673351),
         scaffoldBackgroundColor: const Color(0xffeae9fc),
-        hintColor: const Color(0xff673351),
+        hintColor: const Color(0xffabaad5),
         textTheme: textTheme,
         fontFamily: 'Jua',
         colorScheme: const ColorScheme(

@@ -16,10 +16,10 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Login",
           style: TextStyle(
-              color: accentColor,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 24,
               letterSpacing: 1.2),
@@ -39,7 +39,7 @@ class LoginPage extends StatelessWidget {
                 Text(
                   "Welcome to the App",
                   style: TextStyle(
-                    color: accentColor,
+                    color: primaryColor,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
@@ -66,7 +66,7 @@ class LoginPage extends StatelessWidget {
                     fieldType: 'password'),
                 SizedBox(height: Get.height * 0.1),
                 CustomPrimaryButton(
-                  color: accentColor,
+                  color: primaryColor,
                   textColor: Colors.white,
                   borderRadius: 12.0,
                   elevation: 4.0,
