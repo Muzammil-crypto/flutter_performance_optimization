@@ -60,6 +60,7 @@ class ProductPage extends StatelessWidget {
                 ),
               ),
             ),
+            // Wrap Obx only around the switch since it depends on the themeController observable
             ListTile(
               title: const Text('Dark Mode'),
               leading: const Icon(Icons.dark_mode),
@@ -76,102 +77,107 @@ class ProductPage extends StatelessWidget {
               title: const Text('Home'),
               leading: const Icon(Icons.home),
               onTap: () {
-                Get.offAllNamed('/home'); // Navigate to login page
+                Get.offAllNamed('/home');
               },
             ),
             ListTile(
               title: const Text('Sign Up'),
               leading: const Icon(Icons.app_registration),
               onTap: () {
-                Get.offAllNamed('/signup'); // Navigate to login page
+                Get.offAllNamed('/signup');
               },
             ),
             ListTile(
               title: const Text('Logout'),
               leading: const Icon(Icons.logout),
               onTap: () {
-                Get.offAllNamed('/login'); // Navigate to login page
+                Get.offAllNamed('/login');
               },
             ),
           ],
         ),
       ),
-      body: Container(
-        color: backgroundColor, // Set the background color from the theme
-        child: Obx(() {
-          if (productController.isLoading.value) {
-            return buildShimmerLoading();
-          } else {
-            return NotificationListener<ScrollNotification>(
-              onNotification: (ScrollNotification scrollInfo) {
-                if (!productController.isMoreLoading.value &&
-                    scrollInfo.metrics.pixels ==
-                        scrollInfo.metrics.maxScrollExtent) {
-                  productController.loadMoreProducts(); // Trigger lazy loading
-                }
-                return true;
-              },
-              child: ListView.builder(
-                itemCount: productController.productList.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == productController.productList.length) {
-                    return productController.isMoreLoading.value
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: accentColor, // Use accent color for loader
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const SizedBox
-                            .shrink(); // Empty space when not loading more products
-                  }
-
-                  var product = productController.productList[index];
-                  return ListTile(
-                    onTap: () async {
-                      loadProductDetailsPage(context, product);
-                    },
-                    title: Text(product['title'],
-                        style: TextStyle(
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.color)), // Set text color from theme
-                    subtitle: Text("\$${product['price']}",
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyMedium?.color)),
-                    leading: CachedNetworkImage(
-                      imageUrl: product['image'],
-                      width: 50,
-                      height: 50,
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
+      body: Obx(() {
+        // Only wrap Obx around parts of the widget tree that need reactivity
+        if (productController.isLoading.value) {
+          return buildShimmerLoading();
+        } else {
+          return NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (!productController.isMoreLoading.value &&
+                  scrollInfo.metrics.pixels ==
+                      scrollInfo.metrics.maxScrollExtent) {
+                productController.loadMoreProducts();
+              }
+              return true;
+            },
+            child: ListView.builder(
+              itemCount: productController.productList.length + 1,
+              itemBuilder: (context, index) {
+                if (index == productController.productList.length) {
+                  return productController.isMoreLoading.value
+                      ? Center(
+                    child: CircularProgressIndicator(
+                      color: accentColor,
+                      strokeWidth: 2,
                     ),
-                  );
-                },
-              ),
-            );
-          }
-        }),
-      ),
+                  )
+                      : const SizedBox.shrink();
+                }
+
+                var product = productController.productList[index];
+                return ListTile(
+                  onTap: () async {
+                    loadProductDetailsPage(context, product);
+                  },
+                  title: Text(
+                    product['title'],
+                    style: TextStyle(
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.color,
+                    ),
+                  ),
+                  subtitle: Text(
+                    "\$${product['price']}",
+                    style: TextStyle(
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.color,
+                    ),
+                  ),
+                  leading: CachedNetworkImage(
+                    imageUrl: product['image'],
+                    width: 50,
+                    height: 50,
+                    errorWidget: (context, url, error) =>
+                    const Icon(Icons.error),
+                    placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                  ),
+                );
+              },
+            ),
+          );
+        }
+      }),
     );
   }
 
-  // Shimmer effect for initial product loading
+  // Shimmer loading widget remains unchanged
   Widget buildShimmerLoading() {
     return ListView.builder(
-      itemCount: 10, // Showing 10 shimmer items during initial loading
+      itemCount: 10,
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
           baseColor: Theme.of(context).brightness == Brightness.light
               ? Colors.grey[300]!
-              : Colors.grey[800]!, // Shimmer base color based on the theme
+              : Colors.grey[800]!,
           highlightColor: Theme.of(context).brightness == Brightness.light
               ? Colors.grey[100]!
-              : Colors.grey[600]!, // Shimmer highlight color based on the theme
+              : Colors.grey[600]!,
           child: ListTile(
             leading: Container(
               width: 50.0,
@@ -198,10 +204,10 @@ class ProductPage extends StatelessWidget {
       BuildContext context, Map<String, dynamic> product) {
     product_details.loadLibrary();
     Get.to(() => product_details.ProductDetailsPage(
-          title: product['title'],
-          description: product['description'],
-          imageUrl: product['image'],
-          price: product['price'],
-        ));
+      title: product['title'],
+      description: product['description'],
+      imageUrl: product['image'],
+      price: double.parse(product['price'].toString()),
+    ));
   }
 }
