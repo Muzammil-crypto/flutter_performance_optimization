@@ -1,5 +1,6 @@
 import 'package:deferred_comps/utils/helper_functions.dart';
 import 'package:deferred_comps/views/login_page.dart';
+import 'package:deferred_comps/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/theme_controller.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Deferred Components',
         theme: getCurrentTheme(themeController),
-        home: LoginPage(),
+        home: SplashScreen(),
       );
     });
   }

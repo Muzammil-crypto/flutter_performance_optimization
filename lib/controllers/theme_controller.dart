@@ -54,6 +54,7 @@ class ThemeController extends GetxController {
   TextTheme get textTheme => const TextTheme(
         bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
         bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+        bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
         displayLarge: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
         displayMedium: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
         displaySmall: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),

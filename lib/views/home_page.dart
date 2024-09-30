@@ -117,11 +117,11 @@ class ProductPage extends StatelessWidget {
                 if (index == productController.productList.length) {
                   return productController.isMoreLoading.value
                       ? Center(
-                    child: CircularProgressIndicator(
-                      color: accentColor,
-                      strokeWidth: 2,
-                    ),
-                  )
+                          child: CircularProgressIndicator(
+                            color: accentColor,
+                            strokeWidth: 2,
+                          ),
+                        )
                       : const SizedBox.shrink();
                 }
 
@@ -133,19 +133,16 @@ class ProductPage extends StatelessWidget {
                   title: Text(
                     product['title'],
                     style: TextStyle(
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.color,
+                      fontSize:
+                          Theme.of(context).textTheme.bodyMedium?.fontSize,
+                      color: Theme.of(context).textTheme.bodySmall?.color,
                     ),
                   ),
                   subtitle: Text(
                     "\$${product['price']}",
                     style: TextStyle(
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.color,
+                      fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
+                      color: Theme.of(context).textTheme.bodySmall?.color,
                     ),
                   ),
                   leading: CachedNetworkImage(
@@ -153,9 +150,9 @@ class ProductPage extends StatelessWidget {
                     width: 50,
                     height: 50,
                     errorWidget: (context, url, error) =>
-                    const Icon(Icons.error),
+                        const Icon(Icons.error),
                     placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
+                        const CircularProgressIndicator(),
                   ),
                 );
               },
@@ -204,10 +201,10 @@ class ProductPage extends StatelessWidget {
       BuildContext context, Map<String, dynamic> product) {
     product_details.loadLibrary();
     Get.to(() => product_details.ProductDetailsPage(
-      title: product['title'],
-      description: product['description'],
-      imageUrl: product['image'],
-      price: double.parse(product['price'].toString()),
-    ));
+          title: product['title'],
+          description: product['description'],
+          imageUrl: product['image'],
+          price: double.parse(product['price'].toString()),
+        ));
   }
 }
