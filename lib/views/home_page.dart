@@ -13,6 +13,8 @@ class ProductPage extends StatelessWidget {
   final ProductController productController = Get.put(ProductController());
   final ThemeController themeController = Get.find<ThemeController>();
 
+  ProductPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +62,6 @@ class ProductPage extends StatelessWidget {
                 ),
               ),
             ),
-            // Wrap Obx only around the switch since it depends on the themeController observable
             ListTile(
               title: const Text('Dark Mode'),
               leading: const Icon(Icons.dark_mode),
@@ -98,7 +99,6 @@ class ProductPage extends StatelessWidget {
         ),
       ),
       body: Obx(() {
-        // Only wrap Obx around parts of the widget tree that need reactivity
         if (productController.isLoading.value) {
           return buildShimmerLoading();
         } else {
@@ -163,7 +163,6 @@ class ProductPage extends StatelessWidget {
     );
   }
 
-  // Shimmer loading widget remains unchanged
   Widget buildShimmerLoading() {
     return ListView.builder(
       itemCount: 10,
